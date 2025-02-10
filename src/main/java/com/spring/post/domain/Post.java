@@ -35,4 +35,5 @@ public class Post extends TimeBaseEntity {
 		nullable = false,
 		foreignKey = @ForeignKey(NO_CONSTRAINT))
 	private User user;
+
 }
