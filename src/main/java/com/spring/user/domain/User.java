@@ -6,8 +6,10 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import lombok.Getter;
 
 @Entity(name = "UserEntity")
+@Getter
 public class User extends TimeBaseEntity {
 
 	@Id
@@ -21,5 +23,7 @@ public class User extends TimeBaseEntity {
 
 	private Role role;
 
-
+	public User(String name) {
+		this.name = name;
+	}
 }
