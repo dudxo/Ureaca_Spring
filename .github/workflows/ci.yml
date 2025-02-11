@@ -1,4 +1,4 @@
-name: Java CI with Gradle
+name: CI를 연습해보자.
 
 on:
   # push:
@@ -14,20 +14,38 @@ jobs:
       contents: read
 
     steps:
-    - uses: actions/checkout@v4
+    - name: 코드 체크아웃!!!
+      uses: actions/checkout@v4
+
     - name: JDK 17 시작!!!!!!
       uses: actions/setup-java@v4
       with:
         java-version: '17'
         distribution: 'temurin'
 
-    - name: Gradle 권한 부여 ㅋ.ㅋ
-      run: chmod +x ./gradle
-
-    - name: Gradle 시작!!!!!!
-      uses: gradle/actions/setup-gradle@af1da67850ed9a4cedd57bfd976089dd991e2582 # v4.0.0
+    - name: Gradle 캐시 적용!!!!
+      uses: actions/cache@v4
       with:
-        args: build
+        path: |
+          ~/.gradle/caches
+          ~/.gradle/wrapper
+        key: gradle-${{ runner.os }}-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
+        restore-keys: |
+          gradle-${{ runner.os }}-
+
+    - name: Gradle 권한 부여 ㅋ.ㅋ
+      run: chmod +x ./gradlew
+
+    - name: Gradle 빌드 시작!!!!!!
+      run: ./gradlew build --no-daemon
+
+    - name: Gradle 테스트 시작!!!!!
+      run: ./gradlew test --no-daemon
+
+#    - name: Gradle 빌드 시작!!!!!!
+#      uses: gradle/actions/setup-gradle@af1da67850ed9a4cedd57bfd976089dd991e2582 # v4.0.0
+#      with:
+#        args: build
 
 #    - name: Gradle build 시작!!!!!!!
 #      run: ./gradlew build
