@@ -37,10 +37,27 @@ jobs:
       run: chmod +x ./gradlew
 
     - name: Gradle 빌드 시작!!!!!!
-      run: ./gradlew build --no-daemon
+      run: ./gradlew clean build --no-daemon
 
     - name: Gradle 테스트 시작!!!!!
-      run: ./gradlew test --no-daemon
+      run: ./gradlew clean test --no-daemon
+
+    - name: Build 성공~_~
+      if: ${{ success() }}
+      uses: thollander/actions-comment-pull-request@v2
+      with:
+        message: |
+          ${{ github.event.pull_request.head.ref }} 브랜치 빌드 테스트에 성공했습니다! :tada:
+
+    - name: Build 실패ㅜ_ㅜ
+      if: ${{ failure() }}
+      uses: thollander/actions-comment-pull-request@v2
+      with:
+        message: |
+          ${{ github.head_ref }} 브랜치 빌드 테스트에 실패했습니다! :x:
+          아래 로그를 확인해주세요!
+          ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id}}
+
 
 #    - name: Gradle 빌드 시작!!!!!!
 #      uses: gradle/actions/setup-gradle@af1da67850ed9a4cedd57bfd976089dd991e2582 # v4.0.0
