@@ -1,0 +1,23 @@
+version: 0.0
+os: linux
+
+files:
+  - source:  /  # 인스턴스에 복사할 디렉토리 경로
+    destination: /home/ubuntu/app # 인스턴스에서 파일이 복사되는 위치
+    overwrite: yes  # 복사할 위치에 파일이 있는 경우 대체(덮어쓰기)
+
+permissions:    # 복사한 파일에 대한 권한
+  - object: /   # 권한이 지정되는 파일 디렉토리
+    pattern: "**"   # 매칭되는 패턴에만 권한 부여(**는 전체)
+    owner: ubuntu   # 소유자
+    group: ubuntu   # 그룹 이름
+
+hooks:    # 배포 이후의 스크립트
+  AfterInstall:   # 이미 실행중인 파일 멈추게함
+    - location: scripts/stop.sh   # 스크립트 위치
+      timeout: 60   # 스크립트 실행 타임아웃, 넘으면 배포 실패 간주
+      runas: ubuntu
+  ApplicationStart:
+    - location: scripts/start.sh
+      timeout: 60
+      runas: ubuntu
