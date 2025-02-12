@@ -29,6 +29,6 @@ public class UserTest {
 		User 영희 = new User("영희");
 
 		// when		// then
-		Assertions.assertEquals(철수.getName(), 영희.getName());
+		Assertions.assertNotEquals(철수.getName(), 영희.getName());
 	}
 }
