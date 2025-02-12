@@ -1,6 +1,6 @@
 name: CI를 연습해보자.
 
-on:
+on:   # 어떤 이벤트와 브랜치에서 트리거 될건지
   # push:
   #   branches: [ "main" ]
   pull_request:
@@ -12,6 +12,7 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: read
+      pull-requests: write
 
     steps:
     - name: 코드 체크아웃!!!
@@ -47,22 +48,14 @@ jobs:
       uses: thollander/actions-comment-pull-request@v2
       with:
         message: |
-          ${{ github.event.pull_request.head.ref }} 브랜치 빌드 테스트에 성공했습니다! :tada:
+          ${{ github.event.pull_request.head.ref }} 브랜치 빌드 테스트에 성공했습니다! 🎉
 
     - name: Build 실패ㅜ_ㅜ
       if: ${{ failure() }}
       uses: thollander/actions-comment-pull-request@v2
       with:
         message: |
-          ${{ github.head_ref }} 브랜치 빌드 테스트에 실패했습니다! :x:
+          ${{ github.event.pull_request.head.ref }} 브랜치 빌드 테스트에 실패했습니다! ❌
           아래 로그를 확인해주세요!
-          ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id}}
+          [실행 로그](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }})
 
-
-#    - name: Gradle 빌드 시작!!!!!!
-#      uses: gradle/actions/setup-gradle@af1da67850ed9a4cedd57bfd976089dd991e2582 # v4.0.0
-#      with:
-#        args: build
-
-#    - name: Gradle build 시작!!!!!!!
-#      run: ./gradlew build
