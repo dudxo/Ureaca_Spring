@@ -1,7 +1,8 @@
 #!/usr/bin/env bash
 
 PROJECT_ROOT="/home/ubuntu/app"
-JAR_FILE="$PROJECT_ROOT/spring-webapp.jar"
+JAR_SOURCE="$PROJECT_ROOT/build/libs/spring-webapp-0.0.1-SNAPSHOT.jar"
+JAR_FILE="$PROJECT_ROOT/spring-webapp-0.0.1-SNAPSHOT.jar"
 
 APP_LOG="$PROJECT_ROOT/application.log"
 ERROR_LOG="$PROJECT_ROOT/error.log"
@@ -11,7 +12,7 @@ TIME_NOW=$(date +%c)
 
 # build 파일 복사
 echo "$TIME_NOW > $JAR_FILE 파일 복사" >> $DEPLOY_LOG
-cp $PROJECT_ROOT/build/libs/*.jar $JAR_FILE
+cp $JAR_SOURCE $JAR_FILE
 
 # jar 파일 실행
 echo "$TIME_NOW > $JAR_FILE 파일 실행" >> $DEPLOY_LOG
